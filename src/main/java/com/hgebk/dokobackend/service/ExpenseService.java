@@ -25,12 +25,12 @@ public class ExpenseService {
 
     public void saveExpense(Expense newExpense) {
         Optional<Expense> expenseWithSameArt = expenseRepository.findById(
-                newExpense.getArt());
+                newExpense.getDescription());
 
         if (expenseWithSameArt.isPresent()) {
             throw new DuplicateExpenseException(String.format(
                     "Expense with art %s already exists",
-                    newExpense.getArt()
+                    newExpense.getDescription()
             ));
         }
 
@@ -38,10 +38,10 @@ public class ExpenseService {
     }
 
     public void updateExpense(Expense updatedExpense) {
-        Optional<Expense> expenseWithId = expenseRepository.findById(updatedExpense.getArt());
+        Optional<Expense> expenseWithId = expenseRepository.findById(updatedExpense.getDescription());
 
         if (expenseWithId.isPresent() == false) {
-            throw new NoSuchElementException(String.format("No expense with art \"%s\" found to update", updatedExpense.getArt()));
+            throw new NoSuchElementException(String.format("No expense with art \"%s\" found to update", updatedExpense.getDescription()));
         }
 
         expenseRepository.save(updatedExpense);

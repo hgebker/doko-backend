@@ -25,13 +25,13 @@ public class EarningController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void saveEarning(@RequestBody Earning newEarning) {
         earningService.saveEarning(newEarning);
     }
 
     @PutMapping
     public void updateEarning(@RequestBody Earning updatedEarning) {
-        System.out.println(updatedEarning);
         earningService.updateEarning(updatedEarning);
     }
 

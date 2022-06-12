@@ -25,12 +25,12 @@ public class EarningService {
 
     public void saveEarning(Earning newEarning) {
         Optional<Earning> earningWithSameArt = earningRepository.findById(
-                newEarning.getArt());
+                newEarning.getDescription());
 
         if (earningWithSameArt.isPresent()) {
             throw new DuplicateEarningException(String.format(
                     "Earning with art %s already exists",
-                    newEarning.getArt()
+                    newEarning.getDescription()
             ));
         }
 
@@ -38,10 +38,10 @@ public class EarningService {
     }
 
     public void updateEarning(Earning updatedEarning) {
-        Optional<Earning> earningWithId = earningRepository.findById(updatedEarning.getArt());
+        Optional<Earning> earningWithId = earningRepository.findById(updatedEarning.getDescription());
 
         if (earningWithId.isPresent() == false) {
-            throw new NoSuchElementException(String.format("No earning with art \"%s\" found to update", updatedEarning.getArt()));
+            throw new NoSuchElementException(String.format("No earning with art \"%s\" found to update", updatedEarning.getDescription()));
         }
 
         earningRepository.save(updatedEarning);
