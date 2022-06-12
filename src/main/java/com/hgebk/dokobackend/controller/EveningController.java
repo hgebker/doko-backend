@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path ="/evenings")
@@ -19,8 +20,17 @@ public class EveningController {
     }
 
     @GetMapping
-    public List<Evening> getAllEvenings() {
-        return eveningService.getAllEvenings();
+    public List<Evening> getEvenings(@RequestParam Optional<String> semester) {
+        if (semester.isPresent()) {
+            return eveningService.getEveningsOfSemester(semester.get());
+        } else {
+            return eveningService.getAllEvenings();
+        }
+    }
+
+    @GetMapping(path = "/{date}")
+    public Optional<Evening> getEvening(@PathVariable String date) {
+        return eveningService.getEvening(date);
     }
 
     @PostMapping

@@ -23,6 +23,14 @@ public class EveningService {
         return (List<Evening>) eveningRepository.findAll();
     }
 
+    public List<Evening> getEveningsOfSemester(String semester) {
+        return eveningRepository.findBySemester(semester);
+    }
+
+    public Optional<Evening> getEvening(String date) {
+        return eveningRepository.findById(date);
+    }
+
     public void saveEvening(Evening newEvening) {
         Optional<Evening> eveningWithSameDate = eveningRepository.findById(
                 newEvening.getDate());
