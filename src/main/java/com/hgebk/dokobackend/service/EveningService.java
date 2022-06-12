@@ -1,6 +1,8 @@
 package com.hgebk.dokobackend.service;
 
+import com.hgebk.dokobackend.dto.EveningDTO;
 import com.hgebk.dokobackend.exception.DuplicateEveningException;
+import com.hgebk.dokobackend.mapper.EveningMapper;
 import com.hgebk.dokobackend.model.Evening;
 import com.hgebk.dokobackend.repository.EveningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,26 +11,35 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EveningService {
     private final EveningRepository eveningRepository;
+    private final EveningMapper eveningMapper;
 
     @Autowired
-    public EveningService(EveningRepository eveningRepository) {
+    public EveningService(EveningRepository eveningRepository,
+                          EveningMapper eveningMapper
+    ) {
         this.eveningRepository = eveningRepository;
+        this.eveningMapper = eveningMapper;
     }
 
-    public List<Evening> getAllEvenings() {
-        return (List<Evening>) eveningRepository.findAll();
+    public List<EveningDTO> searchEvenings(Optional<String> semester) {
+        List<Evening> evenings;
+
+        if (semester.isPresent()) {
+            evenings = eveningRepository.findBySemester(semester.get());
+        } else {
+            evenings = (List<Evening>) eveningRepository.findAll();
+        }
+
+        return evenings.stream().map(eveningMapper::toDTO).collect(Collectors.toList());
     }
 
-    public List<Evening> getEveningsOfSemester(String semester) {
-        return eveningRepository.findBySemester(semester);
-    }
-
-    public Optional<Evening> getEvening(String date) {
-        return eveningRepository.findById(date);
+    public Optional<EveningDTO> getEvening(String date) {
+        return eveningRepository.findById(date).map(eveningMapper::toDTO);
     }
 
     public void saveEvening(Evening newEvening) {
