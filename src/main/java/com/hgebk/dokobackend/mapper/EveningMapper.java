@@ -3,31 +3,31 @@ package com.hgebk.dokobackend.mapper;
 import com.hgebk.dokobackend.dto.EveningDTO;
 import com.hgebk.dokobackend.dto.PlayerResultDTO;
 import com.hgebk.dokobackend.model.Evening;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
 public class EveningMapper {
-    public EveningDTO toDTO(Evening domainEvening) {
-        EveningDTO dto = new EveningDTO();
-        dto.setDate(domainEvening.getDate());
-        dto.setSemester(domainEvening.getSemester());
-        dto.setAmountJan(domainEvening.getAmountJan());
-        dto.setAmountTim(domainEvening.getAmountTim());
-        dto.setAmountOle(domainEvening.getAmountOle());
-        dto.setAmountLouisa(domainEvening.getAmountLouisa());
-        dto.setAmountHannes(domainEvening.getAmountHannes());
-        dto.setSum(domainEvening.getSum());
-        dto.setAvg(domainEvening.getAvg());
+    private final ModelMapper modelMapper;
 
-        Optional<PlayerResultDTO> minResult = domainEvening.getMinResult();
+    @Autowired
+    public EveningMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    public EveningDTO toDTO(Evening domainEvening) {
+        EveningDTO dto = modelMapper.map(domainEvening, EveningDTO.class);
+
+        Optional<PlayerResultDTO> minResult = dto.getMinResult();
         if (minResult.isPresent()) {
             dto.setMin(minResult.get().getValue());
             dto.setMinPlayer(minResult.get().getName());
         }
 
-        Optional<PlayerResultDTO> maxResult = domainEvening.getMaxResult();
+        Optional<PlayerResultDTO> maxResult = dto.getMaxResult();
         if (maxResult.isPresent()) {
             dto.setMax(maxResult.get().getValue());
             dto.setMaxPlayer(maxResult.get().getName());

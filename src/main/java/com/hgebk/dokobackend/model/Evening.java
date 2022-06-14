@@ -19,59 +19,29 @@ public class Evening {
     @DynamoDBHashKey
     @DynamoDBAttribute(attributeName = "Datum")
     @JsonProperty("Datum")
-    private String date;
+    protected String date;
 
     @DynamoDBAttribute(attributeName = "semester")
     @JsonProperty("semester")
-    private String semester;
+    protected String semester;
 
     @DynamoDBAttribute(attributeName = "jan")
     @JsonProperty("jan")
-    private Double amountJan;
+    protected Double amountJan;
 
     @DynamoDBAttribute(attributeName = "tim")
     @JsonProperty("tim")
-    private Double amountTim;
+    protected Double amountTim;
 
     @DynamoDBAttribute(attributeName = "ole")
     @JsonProperty("ole")
-    private Double amountOle;
+    protected Double amountOle;
 
     @DynamoDBAttribute(attributeName = "louisa")
     @JsonProperty("louisa")
-    private Double amountLouisa;
+    protected Double amountLouisa;
 
     @DynamoDBAttribute(attributeName = "hannes")
     @JsonProperty("hannes")
-    private Double amountHannes;
-
-    private PlayerResultDTO[] getPlayerResults() {
-        return new PlayerResultDTO[]{
-                new PlayerResultDTO("jan", this.amountJan),
-                new PlayerResultDTO("tim", this.amountTim),
-                new PlayerResultDTO("ole", this.amountOle),
-                new PlayerResultDTO("louisa", this.amountLouisa),
-                new PlayerResultDTO("hannes", this.amountHannes)
-        };
-    }
-
-    public Double getSum() {
-        return Arrays.stream(this.getPlayerResults()).mapToDouble(PlayerResultDTO::getValue).sum();
-    }
-
-    public Double getAvg() {
-        return this.getSum() / this.getPlayerResults().length;
-    }
-
-    public Optional<PlayerResultDTO> getMinResult() {
-        return Arrays.stream(this.getPlayerResults()).filter(playerResult -> {
-            return playerResult.getValue() > 0;
-        }).min(Comparator.comparing(PlayerResultDTO::getValue));
-    }
-
-    public Optional<PlayerResultDTO> getMaxResult() {
-        return Arrays.stream(this.getPlayerResults()).filter(playerResult -> {
-            return playerResult.getValue() > 0;
-        }).max(Comparator.comparing(PlayerResultDTO::getValue));
-    }
+    protected Double amountHannes;
 }
