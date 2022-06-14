@@ -69,4 +69,14 @@ public class EveningService {
     public void deleteEveningWithId(String id) {
         eveningRepository.findById(id).ifPresent(eveningRepository::delete);
     }
+
+    public Double getTotalIncomeFromEvenings() {
+        List<Evening> allEvenings = (List<Evening>) eveningRepository.findAll();
+
+        return allEvenings.stream().mapToDouble(evening -> {
+            return evening.getResultJan() + evening.getResultTim() +
+                   evening.getResultOle() + evening.getResultLouisa() +
+                   evening.getResultHannes();
+        }).sum();
+    }
 }

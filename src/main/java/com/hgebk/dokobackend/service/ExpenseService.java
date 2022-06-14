@@ -50,4 +50,9 @@ public class ExpenseService {
     public void deleteExpenseById(String id) {
         expenseRepository.findById(id).ifPresent(expenseRepository::delete);
     }
+
+    public Double getTotalExpenses() {
+        List<Expense> allExpenses = (List<Expense>) expenseRepository.findAll();
+        return allExpenses.stream().mapToDouble(Expense::getValue).sum();
+    }
 }

@@ -2,6 +2,7 @@ package com.hgebk.dokobackend.service;
 
 import com.hgebk.dokobackend.exception.DuplicateEarningException;
 import com.hgebk.dokobackend.model.Earning;
+import com.hgebk.dokobackend.model.Expense;
 import com.hgebk.dokobackend.repository.EarningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,10 @@ public class EarningService {
 
     public void deleteEarningById(String id) {
         earningRepository.findById(id).ifPresent(earningRepository::delete);
+    }
+
+    public Double getTotalEarnings() {
+        List<Earning> allEarnings = (List<Earning>) earningRepository.findAll();
+        return allEarnings.stream().mapToDouble(Earning::getValue).sum();
     }
 }
