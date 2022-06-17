@@ -15,9 +15,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class ExpenseModelAssembler implements RepresentationModelAssembler<Expense, EntityModel<Expense>> {
     @Override
     public EntityModel<Expense> toModel(Expense expense) {
-        return EntityModel.of(expense,
-                              linkTo(methodOn(ExpenseController.class).getExpense(
-                                      expense.getDescription())).withSelfRel()
-        );
+        return EntityModel.of(expense)
+                          .add(linkTo(methodOn(ExpenseController.class).getExpense(expense.getDescription())).withSelfRel());
     }
 }

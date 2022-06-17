@@ -1,5 +1,6 @@
 package com.hgebk.dokobackend.service;
 
+import com.hgebk.dokobackend.exception.SemesterNotFoundException;
 import com.hgebk.dokobackend.model.Semester;
 import com.hgebk.dokobackend.repository.SemesterRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -21,5 +22,11 @@ public class SemesterService {
     public List<Semester> getAllSemesters() {
         log.info("DBACK: Find all semesters");
         return (List<Semester>) semesterRepository.findAll();
+    }
+
+    public Semester getSemester(String key) {
+        log.info("DBACK: Find semester for key {}", key);
+        return semesterRepository.findById(key)
+                                 .orElseThrow(() -> new SemesterNotFoundException(key));
     }
 }

@@ -13,9 +13,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class EarningModelAssembler implements RepresentationModelAssembler<Earning, EntityModel<Earning>> {
     @Override
     public EntityModel<Earning> toModel(Earning earning) {
-        return EntityModel.of(earning,
-                              linkTo(methodOn(EarningController.class).getEarning(
-                                      earning.getDescription())).withSelfRel()
-        );
+        return EntityModel.of(earning)
+                          .add(linkTo(methodOn(EarningController.class).getEarning(earning.getDescription())).withSelfRel());
     }
 }

@@ -19,10 +19,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class SemesterModelAssembler implements RepresentationModelAssembler<Semester, EntityModel<Semester>> {
     @Override
     public EntityModel<Semester> toModel(Semester semester) {
-        EntityModel<Semester> model = EntityModel.of(semester);
-        model.add(linkTo(methodOn(SemesterController.class).getAllSemesters()).withSelfRel());
-        model.add(linkTo(methodOn(EveningController.class).getEvenings(Optional.of(semester.getKey()))).withRel("evenings"));
-        model.add(linkTo(methodOn(ReportController.class).getSemesterReport(Optional.ofNullable(semester.getKey()))).withRel("report"));
-        return model;
+        return EntityModel.of(semester)
+                          .add(linkTo(methodOn(SemesterController.class).getAllSemesters()).withSelfRel())
+                          .add(linkTo(methodOn(EveningController.class).getEvenings(Optional.of(semester.getKey()))).withRel("evenings"))
+                          .add(linkTo(methodOn(ReportController.class).getSemesterReport(Optional.ofNullable(semester.getKey()))).withRel("report"));
     }
 }

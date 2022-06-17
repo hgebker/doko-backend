@@ -1,5 +1,6 @@
 package com.hgebk.dokobackend.controller;
 
+import com.hgebk.dokobackend.model.Expense;
 import com.hgebk.dokobackend.model.Semester;
 import com.hgebk.dokobackend.modelassembler.SemesterModelAssembler;
 import com.hgebk.dokobackend.service.SemesterService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,5 +42,11 @@ public class SemesterController {
         CollectionModel<EntityModel<Semester>> model = CollectionModel.of(semester);
         model.add(linkTo(methodOn(SemesterController.class).getAllSemesters()).withSelfRel());
         return model;
+    }
+
+    @GetMapping("/{key}")
+    public EntityModel<Semester> getSemester(@PathVariable String key) {
+        Semester semester = semesterService.getSemester(key);
+        return semesterModelAssembler.toModel(semester);
     }
 }
