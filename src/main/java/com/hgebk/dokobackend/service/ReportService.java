@@ -6,6 +6,7 @@ import com.hgebk.dokobackend.mapper.EveningMapper;
 import com.hgebk.dokobackend.model.Evening;
 import com.hgebk.dokobackend.model.Player;
 import com.hgebk.dokobackend.model.Semester;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ReportService {
     private final EarningService earningService;
     private final ExpenseService expenseService;
@@ -33,10 +35,12 @@ public class ReportService {
     }
 
     public CashReportDTO getCashReport() {
+        log.info("DBACK: Getting totals");
         Double totalExpenses = expenseService.getTotalExpenses();
         Double incomeFromEarnings = earningService.getTotalEarnings();
         Double incomeFromEvenings = eveningService.getTotalIncomeFromEvenings(Optional.empty());
 
+        log.info("DBACK: Building report");
         return new CashReportDTO(
                 totalExpenses,
                 incomeFromEarnings,
@@ -45,11 +49,13 @@ public class ReportService {
     }
 
     public SemesterReportDTO getSemesterReport(Optional<String> semesterKey) {
+        log.info("DBACK: Getting evenings");
         List<Evening> evenings = eveningService.searchEvenings(semesterKey);
         List<EveningDTO> eveningDTOs = evenings.stream()
                 .map(eveningMapper::toDTO)
                 .collect(Collectors.toList());
 
+        log.info("DBACK: Building report");
         SemesterReportDTO semesterReportDTO = new SemesterReportDTO();
 
         if (semesterKey.isPresent()) {
@@ -64,6 +70,7 @@ public class ReportService {
     }
 
     public List<SemesterResultDTO> getSemesterResults(Optional<String> semester) {
+        log.info("DBACK: Getting semester results");
         Map<Player, List<EveningResultDTO>> resultsByPlayer = eveningService.getEveningResultsByPlayer(semester);
         return resultsByPlayer.entrySet()
                               .stream()

@@ -11,7 +11,7 @@
 
 	<groupId>com.hgebk</groupId>
 	<artifactId>doko-backend</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>doko-backend</name>
 	<description>Backend for the doko app</description>
 
