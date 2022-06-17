@@ -27,6 +27,13 @@ public class EarningService {
         return (List<Earning>) earningRepository.findAll();
     }
 
+    public Earning getEarning(String description) {
+        log.info("DBACK: Find earning with description {}", description);
+        return earningRepository
+                .findById(description)
+                .orElseThrow(() -> new EarningNotFoundException(description));
+    }
+
     public void saveEarning(Earning newEarning) {
         log.info("DBACK: Find earning with same art");
         Optional<Earning> earningWithSameArt = earningRepository.findById(
@@ -63,11 +70,5 @@ public class EarningService {
         log.info("DBACK: Get total from earnings");
         List<Earning> allEarnings = (List<Earning>) earningRepository.findAll();
         return allEarnings.stream().mapToDouble(Earning::getValue).sum();
-    }
-
-    public Earning getEarning(String description) {
-        return earningRepository
-                .findById(description)
-                .orElseThrow(() -> new EarningNotFoundException(description));
     }
 }

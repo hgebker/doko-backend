@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class DuplicateEarningException extends IllegalStateException{
     public DuplicateEarningException(String description) {
         super(String.format(
-                "Earning with art %s already exists",
+                "Earning with description %s already exists",
                 description
         ));
     }
