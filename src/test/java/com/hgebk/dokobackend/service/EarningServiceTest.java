@@ -123,7 +123,6 @@ class EarningServiceTest {
 
     @Test
     void deleteEarningByDescription_notFound() {
-        Earning earning = new Earning("foo1", 3.5, "foo1");
         given(earningRepository.findById("foo1")).willReturn(Optional.empty());
 
         Throwable thrown = catchThrowable(() -> underTest.deleteEarningByDescription("foo1"));
