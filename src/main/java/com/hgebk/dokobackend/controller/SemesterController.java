@@ -1,7 +1,6 @@
 package com.hgebk.dokobackend.controller;
 
-import com.hgebk.dokobackend.model.Expense;
-import com.hgebk.dokobackend.model.Semester;
+import com.hgebk.dokobackend.entity.Semester;
 import com.hgebk.dokobackend.modelassembler.SemesterModelAssembler;
 import com.hgebk.dokobackend.service.SemesterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path = "/semester")
+@RequestMapping(path = "/semesters")
 public class SemesterController {
     private final SemesterService semesterService;
     private final SemesterModelAssembler semesterModelAssembler;

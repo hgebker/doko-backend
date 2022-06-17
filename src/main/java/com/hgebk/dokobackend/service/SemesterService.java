@@ -1,7 +1,7 @@
 package com.hgebk.dokobackend.service;
 
 import com.hgebk.dokobackend.exception.SemesterNotFoundException;
-import com.hgebk.dokobackend.model.Semester;
+import com.hgebk.dokobackend.entity.Semester;
 import com.hgebk.dokobackend.repository.SemesterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

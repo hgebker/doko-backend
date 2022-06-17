@@ -2,14 +2,13 @@ package com.hgebk.dokobackend.service;
 
 import com.hgebk.dokobackend.exception.DuplicateEarningException;
 import com.hgebk.dokobackend.exception.EarningNotFoundException;
-import com.hgebk.dokobackend.model.Earning;
+import com.hgebk.dokobackend.entity.Earning;
 import com.hgebk.dokobackend.repository.EarningRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service

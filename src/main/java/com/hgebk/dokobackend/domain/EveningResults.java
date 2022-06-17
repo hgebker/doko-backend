@@ -2,13 +2,12 @@ package com.hgebk.dokobackend.domain;
 
 import com.hgebk.dokobackend.dto.EveningResultDTO;
 import com.hgebk.dokobackend.dto.SemesterResultDTO;
-import com.hgebk.dokobackend.model.Player;
+import com.hgebk.dokobackend.entity.Player;
 import lombok.Data;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Data
 public class EveningResults {

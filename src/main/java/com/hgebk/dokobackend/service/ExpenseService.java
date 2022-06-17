@@ -2,14 +2,13 @@ package com.hgebk.dokobackend.service;
 
 import com.hgebk.dokobackend.exception.DuplicateExpenseException;
 import com.hgebk.dokobackend.exception.ExpenseNotFoundException;
-import com.hgebk.dokobackend.model.Expense;
+import com.hgebk.dokobackend.entity.Expense;
 import com.hgebk.dokobackend.repository.ExpenseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service

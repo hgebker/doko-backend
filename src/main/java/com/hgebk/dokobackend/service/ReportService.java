@@ -2,10 +2,9 @@ package com.hgebk.dokobackend.service;
 
 import com.hgebk.dokobackend.domain.EveningResults;
 import com.hgebk.dokobackend.dto.*;
-import com.hgebk.dokobackend.mapper.EveningMapper;
-import com.hgebk.dokobackend.model.Evening;
-import com.hgebk.dokobackend.model.Player;
-import com.hgebk.dokobackend.model.Semester;
+import com.hgebk.dokobackend.entity.Evening;
+import com.hgebk.dokobackend.entity.Player;
+import com.hgebk.dokobackend.modelassembler.EveningModelAssembler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,19 +18,19 @@ public class ReportService {
     private final EarningService earningService;
     private final ExpenseService expenseService;
     private final EveningService eveningService;
-    private final EveningMapper eveningMapper;
+    private final EveningModelAssembler eveningModelAssembler;
 
     @Autowired
     public ReportService(
             EarningService earningService,
             ExpenseService expenseService,
             EveningService eveningService,
-            EveningMapper eveningMapper
+            EveningModelAssembler eveningModelAssembler
     ) {
         this.earningService = earningService;
         this.expenseService = expenseService;
         this.eveningService = eveningService;
-        this.eveningMapper  = eveningMapper;
+        this.eveningModelAssembler = eveningModelAssembler;
     }
 
     public CashReportDTO getCashReport() {
@@ -52,7 +51,7 @@ public class ReportService {
         log.info("DBACK: Getting evenings");
         List<Evening> evenings = eveningService.searchEvenings(semesterKey);
         List<EveningDTO> eveningDTOs = evenings.stream()
-                .map(eveningMapper::toDTO)
+                .map(eveningModelAssembler::toModel)
                 .collect(Collectors.toList());
 
         log.info("DBACK: Building report");

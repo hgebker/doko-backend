@@ -1,9 +1,7 @@
 package com.hgebk.dokobackend.modelassembler;
 
-import com.hgebk.dokobackend.controller.EarningController;
 import com.hgebk.dokobackend.controller.ExpenseController;
-import com.hgebk.dokobackend.model.Earning;
-import com.hgebk.dokobackend.model.Expense;
+import com.hgebk.dokobackend.entity.Expense;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;

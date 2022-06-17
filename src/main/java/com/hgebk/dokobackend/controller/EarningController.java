@@ -1,6 +1,6 @@
 package com.hgebk.dokobackend.controller;
 
-import com.hgebk.dokobackend.model.Earning;
+import com.hgebk.dokobackend.entity.Earning;
 import com.hgebk.dokobackend.modelassembler.EarningModelAssembler;
 import com.hgebk.dokobackend.service.EarningService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.hgebk.dokobackend.controller;
 
-import com.hgebk.dokobackend.model.Expense;
+import com.hgebk.dokobackend.entity.Expense;
 import com.hgebk.dokobackend.modelassembler.ExpenseModelAssembler;
 import com.hgebk.dokobackend.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;

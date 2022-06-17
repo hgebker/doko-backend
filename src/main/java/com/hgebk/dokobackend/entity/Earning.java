@@ -1,4 +1,4 @@
-package com.hgebk.dokobackend.model;
+package com.hgebk.dokobackend.entity;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;

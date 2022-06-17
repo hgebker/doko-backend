@@ -1,11 +1,9 @@
 package com.hgebk.dokobackend.modelassembler;
 
 import com.hgebk.dokobackend.controller.EveningController;
-import com.hgebk.dokobackend.controller.ExpenseController;
 import com.hgebk.dokobackend.controller.ReportController;
 import com.hgebk.dokobackend.controller.SemesterController;
-import com.hgebk.dokobackend.model.Expense;
-import com.hgebk.dokobackend.model.Semester;
+import com.hgebk.dokobackend.entity.Semester;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;

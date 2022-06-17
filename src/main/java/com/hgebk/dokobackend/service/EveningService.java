@@ -3,9 +3,8 @@ package com.hgebk.dokobackend.service;
 import com.hgebk.dokobackend.dto.EveningResultDTO;
 import com.hgebk.dokobackend.exception.DuplicateEveningException;
 import com.hgebk.dokobackend.exception.EveningNotFoundException;
-import com.hgebk.dokobackend.mapper.EveningMapper;
-import com.hgebk.dokobackend.model.Evening;
-import com.hgebk.dokobackend.model.Player;
+import com.hgebk.dokobackend.entity.Evening;
+import com.hgebk.dokobackend.entity.Player;
 import com.hgebk.dokobackend.repository.EveningRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +17,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class EveningService {
     private final EveningRepository eveningRepository;
-    private final EveningMapper eveningMapper;
 
     @Autowired
-    public EveningService(
-            EveningRepository eveningRepository, EveningMapper eveningMapper
-    ) {
+    public EveningService(EveningRepository eveningRepository) {
         this.eveningRepository = eveningRepository;
-        this.eveningMapper = eveningMapper;
     }
 
     public List<Evening> searchEvenings(Optional<String> semester) {
@@ -96,7 +91,7 @@ public class EveningService {
     public Map<Player, List<EveningResultDTO>> getEveningResultsByPlayer(Optional<String> semester) {
         List<Evening> allEvenings = searchEvenings(semester);
         return allEvenings.stream()
-                          .map(eveningMapper::toResults)
+                          .map(Evening::getResults)
                           .flatMap(List::stream)
                           .collect(Collectors.groupingBy(EveningResultDTO::getPlayer));
     }

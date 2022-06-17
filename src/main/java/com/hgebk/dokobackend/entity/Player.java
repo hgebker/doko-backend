@@ -1,4 +1,4 @@
-package com.hgebk.dokobackend.model;
+package com.hgebk.dokobackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

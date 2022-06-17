@@ -1,6 +1,6 @@
 package com.hgebk.dokobackend.dto;
 
-import com.hgebk.dokobackend.model.Player;
+import com.hgebk.dokobackend.entity.Player;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

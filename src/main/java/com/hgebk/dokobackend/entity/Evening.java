@@ -1,12 +1,15 @@
-package com.hgebk.dokobackend.model;
+package com.hgebk.dokobackend.entity;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.hgebk.dokobackend.dto.EveningResultDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -41,4 +44,12 @@ public class Evening {
     @DynamoDBAttribute(attributeName = "hannes")
     @JsonProperty("hannes")
     private Double resultHannes;
+
+    public List<EveningResultDTO> getResults() {
+        return List.of(new EveningResultDTO(Player.JAN, this.getResultJan()),
+                       new EveningResultDTO(Player.TIM, this.getResultTim()),
+                       new EveningResultDTO(Player.OLE, this.getResultOle()),
+                       new EveningResultDTO(Player.LOUISA, this.getResultLouisa()),
+                       new EveningResultDTO(Player.HANNES, this.getResultHannes()));
+    }
 }

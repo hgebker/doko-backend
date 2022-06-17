@@ -1,8 +1,7 @@
 package com.hgebk.dokobackend.controller;
 
 import com.hgebk.dokobackend.dto.EveningDTO;
-import com.hgebk.dokobackend.mapper.EveningMapper;
-import com.hgebk.dokobackend.model.Evening;
+import com.hgebk.dokobackend.entity.Evening;
 import com.hgebk.dokobackend.modelassembler.EveningModelAssembler;
 import com.hgebk.dokobackend.service.EveningService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,25 +21,19 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping(path ="/evenings")
 public class EveningController {
     private final EveningService eveningService;
-    private final EveningMapper eveningMapper;
     private final EveningModelAssembler eveningModelAssembler;
 
 
     @Autowired
-    public EveningController(EveningService eveningService,
-                             EveningMapper eveningMapper,
-                             EveningModelAssembler eveningModelAssembler
-    ) {
+    public EveningController(EveningService eveningService, EveningModelAssembler eveningModelAssembler) {
         this.eveningService = eveningService;
-        this.eveningMapper = eveningMapper;
         this.eveningModelAssembler = eveningModelAssembler;
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<EveningDTO>> getEvenings(@RequestParam Optional<String> semester) {
-        List<EntityModel<EveningDTO>> evenings = eveningService.searchEvenings(semester)
+    public CollectionModel<EveningDTO> getEvenings(@RequestParam Optional<String> semester) {
+        List<EveningDTO> evenings = eveningService.searchEvenings(semester)
                                                   .stream()
-                                                  .map(eveningMapper::toDTO)
                                                   .map(eveningModelAssembler::toModel)
                                                   .collect(Collectors.toList());
 
@@ -49,10 +42,9 @@ public class EveningController {
     }
 
     @GetMapping(path = "/{date}")
-    public EntityModel<EveningDTO> getEvening(@PathVariable String date) {
+    public EveningDTO getEvening(@PathVariable String date) {
         Evening evening = eveningService.getEvening(date);
-        EveningDTO dto = eveningMapper.toDTO(evening);
-        return eveningModelAssembler.toModel(dto);
+        return eveningModelAssembler.toModel(evening);
     }
 
     @PostMapping

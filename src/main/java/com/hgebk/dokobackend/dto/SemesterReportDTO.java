@@ -1,9 +1,9 @@
 package com.hgebk.dokobackend.dto;
 
-import com.hgebk.dokobackend.model.Evening;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 
