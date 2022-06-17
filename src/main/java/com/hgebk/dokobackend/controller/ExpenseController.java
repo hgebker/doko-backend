@@ -30,11 +30,13 @@ public class ExpenseController {
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateExpense(@RequestBody Expense updatedExpense) {
         expenseService.updateExpense(updatedExpense);
     }
 
     @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteExpenseById(@PathVariable String id) {
         expenseService.deleteExpenseById(id);
     }

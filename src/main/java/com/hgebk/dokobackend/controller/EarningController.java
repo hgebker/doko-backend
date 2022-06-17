@@ -31,11 +31,13 @@ public class EarningController {
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateEarning(@RequestBody Earning updatedEarning) {
         earningService.updateEarning(updatedEarning);
     }
 
     @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEarningById(@PathVariable String id) {
         earningService.deleteEarningById(id);
     }

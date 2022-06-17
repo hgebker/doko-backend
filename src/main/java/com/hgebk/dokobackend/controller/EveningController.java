@@ -45,11 +45,13 @@ public class EveningController {
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateEvening(@RequestBody Evening updatedEvening) {
         eveningService.updateEvening(updatedEvening);
     }
 
     @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEveningWithId(@PathVariable String id) {
         eveningService.deleteEveningWithId(id);
     }
