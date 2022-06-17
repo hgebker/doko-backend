@@ -21,7 +21,7 @@ public class Earning {
 
     @DynamoDBAttribute(attributeName = "betrag")
     @JsonProperty("betrag")
-    private Double value;
+    private double value;
 
     @DynamoDBAttribute(attributeName = "semester")
     @JsonProperty("semester")
