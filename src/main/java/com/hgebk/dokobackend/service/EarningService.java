@@ -1,8 +1,8 @@
 package com.hgebk.dokobackend.service;
 
 import com.hgebk.dokobackend.exception.DuplicateEarningException;
+import com.hgebk.dokobackend.exception.EarningNotFoundException;
 import com.hgebk.dokobackend.model.Earning;
-import com.hgebk.dokobackend.model.Expense;
 import com.hgebk.dokobackend.repository.EarningRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +33,7 @@ public class EarningService {
                 newEarning.getDescription());
 
         if (earningWithSameArt.isPresent()) {
-            log.error("DBACK: Duplicate earning");
-            throw new DuplicateEarningException(String.format(
-                    "Earning with art %s already exists",
-                    newEarning.getDescription()
-            ));
+            throw new DuplicateEarningException(newEarning.getDescription());
         }
 
         earningRepository.save(newEarning);
@@ -48,18 +44,17 @@ public class EarningService {
         Optional<Earning> earningWithId = earningRepository.findById(updatedEarning.getDescription());
 
         if (earningWithId.isPresent() == false) {
-            log.error("DBACK: Earning with id \"{}\" does not exist", updatedEarning.getDescription());
-            throw new NoSuchElementException(String.format("No earning with art \"%s\" found to update", updatedEarning.getDescription()));
+            throw new EarningNotFoundException(updatedEarning.getDescription());
         }
 
         earningRepository.save(updatedEarning);
     }
 
-    public void deleteEarningById(String id) {
+    public void deleteEarningByDescription(String description) {
         log.info("DBACK: Find earning to delete");
         Earning earningToDelete = earningRepository
-                .findById(id)
-                .orElseThrow(() -> new NoSuchElementException(String.format("No earning with art \"%s\" found to delete", id)));
+                .findById(description)
+                .orElseThrow(() -> new EarningNotFoundException(description));
 
         earningRepository.delete(earningToDelete);
     }
@@ -68,5 +63,11 @@ public class EarningService {
         log.info("DBACK: Get total from earnings");
         List<Earning> allEarnings = (List<Earning>) earningRepository.findAll();
         return allEarnings.stream().mapToDouble(Earning::getValue).sum();
+    }
+
+    public Earning getEarning(String description) {
+        return earningRepository
+                .findById(description)
+                .orElseThrow(() -> new EarningNotFoundException(description));
     }
 }
