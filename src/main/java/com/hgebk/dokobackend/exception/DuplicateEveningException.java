@@ -5,7 +5,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value= HttpStatus.BAD_REQUEST)
 public class DuplicateEveningException extends IllegalStateException{
-    public DuplicateEveningException(String message) {
-        super(message);
+    public DuplicateEveningException(String date) {
+        super(String.format(
+                "Evening with date %s already exists",
+                date
+        ));
     }
 }

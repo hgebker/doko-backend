@@ -1,10 +1,8 @@
 package com.hgebk.dokobackend.service;
 
-import com.hgebk.dokobackend.domain.EveningResults;
-import com.hgebk.dokobackend.dto.EveningDTO;
 import com.hgebk.dokobackend.dto.EveningResultDTO;
-import com.hgebk.dokobackend.dto.SemesterResultDTO;
 import com.hgebk.dokobackend.exception.DuplicateEveningException;
+import com.hgebk.dokobackend.exception.EveningNotFoundException;
 import com.hgebk.dokobackend.mapper.EveningMapper;
 import com.hgebk.dokobackend.model.Evening;
 import com.hgebk.dokobackend.model.Player;
@@ -47,7 +45,7 @@ public class EveningService {
     public Evening getEvening(String date) {
         log.info("DBACK: Find evening for date {}", date);
         return eveningRepository.findById(date)
-                                .orElseThrow(() -> new NoSuchElementException(String.format("No evening with date \"%s\" found", date)));
+                                .orElseThrow(() -> new EveningNotFoundException(date));
     }
 
     public void saveEvening(Evening newEvening) {
@@ -56,11 +54,7 @@ public class EveningService {
                 newEvening.getDate());
 
         if (eveningWithSameDate.isPresent()) {
-            log.error("DBACK: Evening with same date already exists");
-            throw new DuplicateEveningException(String.format(
-                    "Evening with date %s already exists",
-                    newEvening.getDate()
-            ));
+            throw new DuplicateEveningException(newEvening.getDate());
         }
 
         eveningRepository.save(newEvening);
@@ -72,20 +66,16 @@ public class EveningService {
                 updatedEvening.getDate());
 
         if (eveningWithDate.isPresent() == false) {
-            log.error("DBACK: Evening with date \"{}\" does not exist", updatedEvening.getDate());
-            throw new NoSuchElementException(String.format(
-                    "No evening with date \"%s\" found to update",
-                    updatedEvening.getDate()
-            ));
+            throw new EveningNotFoundException(updatedEvening.getDate());
         }
 
         eveningRepository.save(updatedEvening);
     }
 
-    public void deleteEveningWithId(String id) {
+    public void deleteEveningByDate(String date) {
         log.info("DBACK: Find evening to delete");
-        Evening toDelete = eveningRepository.findById(id)
-                                            .orElseThrow(() -> new NoSuchElementException(String.format("No evening with id \"%s\" found", id)));
+        Evening toDelete = eveningRepository.findById(date)
+                                            .orElseThrow(() -> new EveningNotFoundException(date));
 
         eveningRepository.delete(toDelete);
     }
