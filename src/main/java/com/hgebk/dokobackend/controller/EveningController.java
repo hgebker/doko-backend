@@ -16,21 +16,26 @@ import java.util.stream.Collectors;
 @RequestMapping(path ="/evenings")
 public class EveningController {
     private final EveningService eveningService;
+    private final EveningMapper eveningMapper;
 
 
     @Autowired
-    public EveningController(EveningService eveningService) {
+    public EveningController(EveningService eveningService,
+                             EveningMapper eveningMapper
+    ) {
         this.eveningService = eveningService;
+        this.eveningMapper = eveningMapper;
     }
 
     @GetMapping
     public List<EveningDTO> getEvenings(@RequestParam Optional<String> semester) {
-        return eveningService.searchEvenings(semester);
+        return eveningService.searchEvenings(semester).stream().map(eveningMapper::toDTO).collect(Collectors.toList());
     }
 
     @GetMapping(path = "/{date}")
-    public Optional<EveningDTO> getEvening(@PathVariable String date) {
-        return eveningService.getEvening(date);
+    public EveningDTO getEvening(@PathVariable String date) {
+        Evening evening = eveningService.getEvening(date);
+        return eveningMapper.toDTO(evening);
     }
 
     @PostMapping

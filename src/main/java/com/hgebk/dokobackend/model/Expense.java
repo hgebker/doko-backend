@@ -24,5 +24,5 @@ public class Expense {
 
     @DynamoDBAttribute(attributeName = "semester")
     @JsonProperty("semester")
-    private String semester;
+    private String semesterKey;
 }

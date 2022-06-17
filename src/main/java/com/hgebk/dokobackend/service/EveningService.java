@@ -1,16 +1,18 @@
 package com.hgebk.dokobackend.service;
 
+import com.hgebk.dokobackend.domain.EveningResults;
 import com.hgebk.dokobackend.dto.EveningDTO;
+import com.hgebk.dokobackend.dto.EveningResultDTO;
+import com.hgebk.dokobackend.dto.SemesterResultDTO;
 import com.hgebk.dokobackend.exception.DuplicateEveningException;
 import com.hgebk.dokobackend.mapper.EveningMapper;
 import com.hgebk.dokobackend.model.Evening;
+import com.hgebk.dokobackend.model.Player;
 import com.hgebk.dokobackend.repository.EveningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,14 +21,14 @@ public class EveningService {
     private final EveningMapper eveningMapper;
 
     @Autowired
-    public EveningService(EveningRepository eveningRepository,
-                          EveningMapper eveningMapper
+    public EveningService(
+            EveningRepository eveningRepository, EveningMapper eveningMapper
     ) {
         this.eveningRepository = eveningRepository;
         this.eveningMapper = eveningMapper;
     }
 
-    public List<EveningDTO> searchEvenings(Optional<String> semester) {
+    public List<Evening> searchEvenings(Optional<String> semester) {
         List<Evening> evenings;
 
         if (semester.isPresent()) {
@@ -35,11 +37,15 @@ public class EveningService {
             evenings = (List<Evening>) eveningRepository.findAll();
         }
 
-        return evenings.stream().map(eveningMapper::toDTO).collect(Collectors.toList());
+        return evenings;
     }
 
-    public Optional<EveningDTO> getEvening(String date) {
-        return eveningRepository.findById(date).map(eveningMapper::toDTO);
+    public Evening getEvening(String date) {
+        return eveningRepository.findById(date)
+                                .orElseThrow(() -> new NoSuchElementException(String.format(
+                "No evening with date \"%s\" found",
+                date
+        )));
     }
 
     public void saveEvening(Evening newEvening) {
@@ -57,10 +63,14 @@ public class EveningService {
     }
 
     public void updateEvening(Evening updatedEvening) {
-        Optional<Evening> eveningWithDate = eveningRepository.findById(updatedEvening.getDate());
+        Optional<Evening> eveningWithDate = eveningRepository.findById(
+                updatedEvening.getDate());
 
         if (eveningWithDate.isPresent() == false) {
-            throw new NoSuchElementException(String.format("No evening with date \"%s\" found to update", updatedEvening.getDate()));
+            throw new NoSuchElementException(String.format(
+                    "No evening with date \"%s\" found to update",
+                    updatedEvening.getDate()
+            ));
         }
 
         eveningRepository.save(updatedEvening);
@@ -70,13 +80,23 @@ public class EveningService {
         eveningRepository.findById(id).ifPresent(eveningRepository::delete);
     }
 
-    public Double getTotalIncomeFromEvenings() {
-        List<Evening> allEvenings = (List<Evening>) eveningRepository.findAll();
+    public Double getTotalIncomeFromEvenings(Optional<String> semesterKey) {
+        List<Evening> allEvenings = searchEvenings(semesterKey);
 
         return allEvenings.stream().mapToDouble(evening -> {
-            return evening.getResultJan() + evening.getResultTim() +
-                   evening.getResultOle() + evening.getResultLouisa() +
+            return evening.getResultJan() +
+                   evening.getResultTim() +
+                   evening.getResultOle() +
+                   evening.getResultLouisa() +
                    evening.getResultHannes();
         }).sum();
+    }
+
+    public Map<Player, List<EveningResultDTO>> getEveningResultsByPlayer(Optional<String> semester) {
+        List<Evening> allEvenings = searchEvenings(semester);
+        return allEvenings.stream()
+                          .map(eveningMapper::toResults)
+                          .flatMap(List::stream)
+                          .collect(Collectors.groupingBy(EveningResultDTO::getPlayer));
     }
 }
