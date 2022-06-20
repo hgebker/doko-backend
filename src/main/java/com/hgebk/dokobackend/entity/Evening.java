@@ -2,6 +2,7 @@ package com.hgebk.dokobackend.entity;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hgebk.dokobackend.dto.EveningResultDTO;
@@ -18,7 +19,7 @@ import java.util.List;
 public class Evening {
     @DynamoDBHashKey
     @DynamoDBAttribute(attributeName = "Datum")
-    @JsonProperty("Datum")
+    @JsonProperty("date")
     private String date;
 
     @DynamoDBAttribute(attributeName = "semester")
@@ -27,24 +28,25 @@ public class Evening {
 
     @DynamoDBAttribute(attributeName = "jan")
     @JsonProperty("jan")
-    private Double resultJan;
+    private double resultJan;
 
     @DynamoDBAttribute(attributeName = "tim")
     @JsonProperty("tim")
-    private Double resultTim;
+    private double resultTim;
 
     @DynamoDBAttribute(attributeName = "ole")
     @JsonProperty("ole")
-    private Double resultOle;
+    private double resultOle;
 
     @DynamoDBAttribute(attributeName = "louisa")
     @JsonProperty("louisa")
-    private Double resultLouisa;
+    private double resultLouisa;
 
     @DynamoDBAttribute(attributeName = "hannes")
     @JsonProperty("hannes")
-    private Double resultHannes;
+    private double resultHannes;
 
+    @DynamoDBIgnore
     public List<EveningResultDTO> getResults() {
         return List.of(new EveningResultDTO(Player.JAN, this.getResultJan()),
                        new EveningResultDTO(Player.TIM, this.getResultTim()),
