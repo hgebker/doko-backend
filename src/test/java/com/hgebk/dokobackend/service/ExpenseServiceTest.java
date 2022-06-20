@@ -1,5 +1,6 @@
 package com.hgebk.dokobackend.service;
 
+import com.hgebk.dokobackend.BaseTest;
 import com.hgebk.dokobackend.entity.Earning;
 import com.hgebk.dokobackend.entity.Expense;
 import com.hgebk.dokobackend.exception.DuplicateEarningException;
@@ -20,7 +21,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-class ExpenseServiceTest {
+class ExpenseServiceTest extends BaseTest {
     @Mock
     private ExpenseRepository expenseRepository;
 
@@ -28,7 +29,6 @@ class ExpenseServiceTest {
 
     @BeforeEach
     public void setUp() {
-        openMocks(this);
         underTest = new ExpenseService(expenseRepository);
     }
 
