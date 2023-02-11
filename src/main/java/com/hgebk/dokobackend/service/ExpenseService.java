@@ -1,8 +1,8 @@
 package com.hgebk.dokobackend.service;
 
+import com.hgebk.dokobackend.entity.Expense;
 import com.hgebk.dokobackend.exception.DuplicateExpenseException;
 import com.hgebk.dokobackend.exception.ExpenseNotFoundException;
-import com.hgebk.dokobackend.entity.Expense;
 import com.hgebk.dokobackend.repository.ExpenseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,8 @@ public class ExpenseService {
 
     public List<Expense> getAllExpenses() {
         log.info("DBACK: Find all expenses");
-        return (List<Expense>) expenseRepository.findAll();
+        List<Expense> expenses = (List<Expense>) expenseRepository.findAll();
+        return expenses.stream().sorted().toList();
     }
 
     public Expense getExpense(String description) {
@@ -47,7 +48,8 @@ public class ExpenseService {
 
     public void updateExpense(Expense updatedExpense) {
         log.info("DBACK: Find expense to update");
-        Optional<Expense> expenseWithId = expenseRepository.findById(updatedExpense.getDescription());
+        Optional<Expense> expenseWithId = expenseRepository.findById(
+                updatedExpense.getDescription());
 
         if (expenseWithId.isPresent() == false) {
             throw new ExpenseNotFoundException(updatedExpense.getDescription());

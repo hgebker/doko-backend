@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamoDBTable(tableName = "doko-ausgaben")
-public class Expense {
+public class Expense implements Comparable<Expense> {
     @DynamoDBHashKey
     @DynamoDBAttribute(attributeName = "art")
     @JsonProperty("art")
@@ -25,4 +25,9 @@ public class Expense {
     @DynamoDBAttribute(attributeName = "semester")
     @JsonProperty("semester")
     private String semesterKey;
+
+    @Override
+    public int compareTo(Expense that) {
+        return this.getDescription().compareTo(that.getDescription());
+    }
 }

@@ -1,8 +1,8 @@
 package com.hgebk.dokobackend.service;
 
+import com.hgebk.dokobackend.entity.Earning;
 import com.hgebk.dokobackend.exception.DuplicateEarningException;
 import com.hgebk.dokobackend.exception.EarningNotFoundException;
-import com.hgebk.dokobackend.entity.Earning;
 import com.hgebk.dokobackend.repository.EarningRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,8 @@ public class EarningService {
 
     public List<Earning> getAllEarnings() {
         log.info("DBACK: Find all earnings");
-        return (List<Earning>) earningRepository.findAll();
+        List<Earning> earnings = (List<Earning>) earningRepository.findAll();
+        return earnings.stream().sorted().toList();
     }
 
     public Earning getEarning(String description) {
@@ -47,7 +48,8 @@ public class EarningService {
 
     public void updateEarning(Earning updatedEarning) {
         log.info("DBACK: Find earning to update");
-        Optional<Earning> earningWithId = earningRepository.findById(updatedEarning.getDescription());
+        Optional<Earning> earningWithId = earningRepository.findById(
+                updatedEarning.getDescription());
 
         if (earningWithId.isPresent() == false) {
             throw new EarningNotFoundException(updatedEarning.getDescription());

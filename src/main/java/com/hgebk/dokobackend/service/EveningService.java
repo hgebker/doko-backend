@@ -1,16 +1,18 @@
 package com.hgebk.dokobackend.service;
 
 import com.hgebk.dokobackend.dto.EveningResultDTO;
-import com.hgebk.dokobackend.exception.DuplicateEveningException;
-import com.hgebk.dokobackend.exception.EveningNotFoundException;
 import com.hgebk.dokobackend.entity.Evening;
 import com.hgebk.dokobackend.entity.Player;
+import com.hgebk.dokobackend.exception.DuplicateEveningException;
+import com.hgebk.dokobackend.exception.EveningNotFoundException;
 import com.hgebk.dokobackend.repository.EveningRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,13 +36,14 @@ public class EveningService {
             evenings = (List<Evening>) eveningRepository.findAll();
         }
 
-        return evenings;
+        return evenings.stream().sorted().toList();
     }
 
     public Evening getEvening(String date) {
         log.info("DBACK: Find evening for date {}", date);
-        return eveningRepository.findById(date)
-                                .orElseThrow(() -> new EveningNotFoundException(date));
+        return eveningRepository
+                .findById(date)
+                .orElseThrow(() -> new EveningNotFoundException(date));
     }
 
     public void saveEvening(Evening newEvening) {
@@ -69,8 +72,9 @@ public class EveningService {
 
     public void deleteEveningByDate(String date) {
         log.info("DBACK: Find evening to delete");
-        Evening toDelete = eveningRepository.findById(date)
-                                            .orElseThrow(() -> new EveningNotFoundException(date));
+        Evening toDelete = eveningRepository
+                .findById(date)
+                .orElseThrow(() -> new EveningNotFoundException(date));
 
         eveningRepository.delete(toDelete);
     }
@@ -88,11 +92,14 @@ public class EveningService {
         }).sum();
     }
 
-    public Map<Player, List<EveningResultDTO>> getEveningResultsByPlayer(Optional<String> semester) {
+    public Map<Player, List<EveningResultDTO>> getEveningResultsByPlayer(
+            Optional<String> semester
+    ) {
         List<Evening> allEvenings = searchEvenings(semester);
-        return allEvenings.stream()
-                          .map(Evening::getResults)
-                          .flatMap(List::stream)
-                          .collect(Collectors.groupingBy(EveningResultDTO::getPlayer));
+        return allEvenings
+                .stream()
+                .map(Evening::getResults)
+                .flatMap(List::stream)
+                .collect(Collectors.groupingBy(EveningResultDTO::getPlayer));
     }
 }

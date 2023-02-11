@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamoDBTable(tableName = "doko-abende")
-public class Evening {
+public class Evening implements Comparable<Evening> {
     @DynamoDBHashKey
     @DynamoDBAttribute(attributeName = "Datum")
     @JsonProperty("date")
@@ -48,10 +48,17 @@ public class Evening {
 
     @DynamoDBIgnore
     public List<EveningResultDTO> getResults() {
-        return List.of(new EveningResultDTO(Player.JAN, this.getResultJan()),
-                       new EveningResultDTO(Player.TIM, this.getResultTim()),
-                       new EveningResultDTO(Player.OLE, this.getResultOle()),
-                       new EveningResultDTO(Player.LOUISA, this.getResultLouisa()),
-                       new EveningResultDTO(Player.HANNES, this.getResultHannes()));
+        return List.of(
+                new EveningResultDTO(Player.JAN, this.getResultJan()),
+                new EveningResultDTO(Player.TIM, this.getResultTim()),
+                new EveningResultDTO(Player.OLE, this.getResultOle()),
+                new EveningResultDTO(Player.LOUISA, this.getResultLouisa()),
+                new EveningResultDTO(Player.HANNES, this.getResultHannes())
+        );
+    }
+
+    @Override
+    public int compareTo(Evening that) {
+        return this.getDate().compareTo(that.getDate());
     }
 }

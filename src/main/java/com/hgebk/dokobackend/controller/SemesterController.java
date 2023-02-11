@@ -18,28 +18,32 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path = "/semesters")
+@RequestMapping(path = "/semester")
 public class SemesterController {
     private final SemesterService semesterService;
     private final SemesterModelAssembler semesterModelAssembler;
 
     @Autowired
-    public SemesterController(SemesterService semesterService,
-                              SemesterModelAssembler semesterModelAssembler
+    public SemesterController(
+            SemesterService semesterService,
+            SemesterModelAssembler semesterModelAssembler
     ) {
         this.semesterService = semesterService;
         this.semesterModelAssembler = semesterModelAssembler;
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<Semester>> getAllSemesters() {
-        List<EntityModel<Semester>> semester = semesterService.getAllSemesters()
-                                                              .stream()
-                                                              .map(semesterModelAssembler::toModel)
-                                                              .collect(Collectors.toList());
+    public CollectionModel<EntityModel<Semester>> getAllSemester() {
+        List<EntityModel<Semester>> semester =
+                semesterService
+                        .getAllSemesters()
+                        .stream()
+                        .map(semesterModelAssembler::toModel)
+                        .collect(Collectors.toList());
 
-        CollectionModel<EntityModel<Semester>> model = CollectionModel.of(semester);
-        model.add(linkTo(methodOn(SemesterController.class).getAllSemesters()).withSelfRel());
+        CollectionModel<EntityModel<Semester>> model = CollectionModel.of(
+                semester);
+        model.add(linkTo(methodOn(SemesterController.class).getAllSemester()).withSelfRel());
         return model;
     }
 
