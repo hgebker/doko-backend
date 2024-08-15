@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="Application-Prod" type="Application" factoryName="Application">
-        <option name="MAIN_CLASS_NAME" value="com.hgebk.dokobackend.Application"/>
+        <option name="MAIN_CLASS_NAME" value="com.hgebk.doko.Application"/>
         <module name="backend"/>
         <option name="PROGRAM_PARAMETERS" value="-P prod"/>
         <extension name="coverage">
             <pattern>
-                <option name="PATTERN" value="com.hgebk.dokobackend.*"/>
+                <option name="PATTERN" value="com.hgebk.doko.*"/>
                 <option name="ENABLED" value="true"/>
             </pattern>
         </extension>
