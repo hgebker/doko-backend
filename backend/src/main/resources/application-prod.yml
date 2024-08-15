@@ -1,0 +1,6 @@
+server:
+  port: 5000
+
+amazon:
+  dynamodb:
+    endpoint: https://dynamodb.eu-central-1.amazonaws.com
